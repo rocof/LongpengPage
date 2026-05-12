@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>龙鹏作品集</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,9 +13,9 @@
         }
 
         body {
-            font-family: 'Noto Serif SC', serif;
-            background: #faf9f7;
-            color: #2c2c2c;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: #0a0e17;
+            color: #e0e6ed;
             line-height: 1.6;
         }
 
@@ -28,22 +28,43 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, #0a0e17 0%, #1a1f35 50%, #0a0e17 100%);
         }
 
         header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(200,180,160,0.15) 0%, transparent 60%);
-            animation: float 20s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0, 255, 200, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 150, 255, 0.08) 0%, transparent 50%);
+            animation: glow 8s ease-in-out infinite alternate;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(2%, 2%) rotate(2deg); }
+        @keyframes glow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px); }
         }
 
         .header-content {
@@ -54,9 +75,10 @@
         .subtitle {
             font-size: 13px;
             letter-spacing: 8px;
-            color: #999;
+            color: #00ffc8;
             text-transform: uppercase;
             margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
         }
 
         h1 {
@@ -64,11 +86,15 @@
             font-weight: 300;
             letter-spacing: 12px;
             margin-bottom: 30px;
+            background: linear-gradient(90deg, #fff, #00ffc8, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .tagline {
             font-size: 14px;
-            color: #888;
+            color: #6b7c93;
             letter-spacing: 2px;
         }
 
@@ -79,7 +105,7 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            color: #bbb;
+            color: #3d5a80;
             font-size: 11px;
             letter-spacing: 2px;
             animation: fadeInUp 1s ease 1s both;
@@ -88,7 +114,7 @@
         .scroll-line {
             width: 1px;
             height: 40px;
-            background: linear-gradient(to bottom, #ddd, transparent);
+            background: linear-gradient(to bottom, #00ffc8, transparent);
             animation: scrollLine 2s ease-in-out infinite;
         }
 
@@ -115,19 +141,20 @@
             align-items: flex-end;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(0, 255, 200, 0.2);
         }
 
         .section-title {
             font-size: 13px;
             letter-spacing: 4px;
-            color: #999;
+            color: #00ffc8;
             text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .work-count {
             font-size: 12px;
-            color: #bbb;
+            color: #4a5568;
         }
 
         /* Gallery Grid */
@@ -140,9 +167,26 @@
         .gallery-item {
             position: relative;
             overflow: hidden;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            background: #f0efed;
+            background: linear-gradient(135deg, #1a2339 0%, #0d1320 100%);
+            border: 1px solid rgba(0, 255, 200, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 200, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .gallery-item:hover::before {
+            left: 100%;
         }
 
         .gallery-item::after {
@@ -159,10 +203,16 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .gallery-item:hover {
+            border-color: rgba(0, 255, 200, 0.4);
+            box-shadow: 0 0 30px rgba(0, 255, 200, 0.15);
         }
 
         .gallery-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .gallery-item .overlay {
@@ -171,7 +221,7 @@
             left: 0;
             right: 0;
             padding: 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            background: linear-gradient(to top, rgba(10, 14, 23, 0.95), transparent);
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -181,9 +231,10 @@
         }
 
         .gallery-item .work-number {
-            color: rgba(255,255,255,0.9);
+            color: #00ffc8;
             font-size: 12px;
             letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
         }
 
         /* Video Grid */
@@ -191,14 +242,17 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
+            margin-top: 40px;
         }
 
         .video-item {
             position: relative;
             overflow: hidden;
-            border-radius: 4px;
-            background: #1a1a1a;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1a2339 0%, #0d1320 100%);
+            border: 1px solid rgba(0, 255, 200, 0.1);
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .video-item::after {
@@ -217,6 +271,11 @@
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
+        .video-item:hover {
+            border-color: rgba(0, 255, 200, 0.4);
+            box-shadow: 0 0 30px rgba(0, 255, 200, 0.15);
+        }
+
         .video-item:hover video {
             transform: scale(1.05);
         }
@@ -227,14 +286,15 @@
             left: 0;
             right: 0;
             padding: 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            background: linear-gradient(to top, rgba(10, 14, 23, 0.95), transparent);
             z-index: 2;
         }
 
         .video-item .video-title {
-            color: rgba(255,255,255,0.9);
+            color: #00ffc8;
             font-size: 12px;
             letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
         }
 
         /* Lightbox */
@@ -245,7 +305,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10,10,10,0.95);
+            background: rgba(5, 8, 15, 0.98);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -268,8 +328,8 @@
             max-width: 100%;
             max-height: 85vh;
             object-fit: contain;
-            border-radius: 2px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border-radius: 4px;
+            box-shadow: 0 0 60px rgba(0, 255, 200, 0.2);
         }
 
         .lightbox video {
@@ -281,14 +341,14 @@
             top: 30px;
             right: 40px;
             font-size: 32px;
-            color: rgba(255,255,255,0.6);
+            color: rgba(0, 255, 200, 0.6);
             cursor: pointer;
             transition: color 0.3s;
             font-family: sans-serif;
         }
 
         .lightbox .close:hover {
-            color: #fff;
+            color: #00ffc8;
         }
 
         .lightbox .nav {
@@ -296,7 +356,7 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 36px;
-            color: rgba(255,255,255,0.4);
+            color: rgba(0, 255, 200, 0.4);
             cursor: pointer;
             padding: 30px 25px;
             transition: all 0.3s;
@@ -305,8 +365,8 @@
         }
 
         .lightbox .nav:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.05);
+            color: #00ffc8;
+            background: rgba(0, 255, 200, 0.05);
         }
 
         .lightbox .prev { left: 20px; }
@@ -317,24 +377,36 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.5);
+            color: rgba(0, 255, 200, 0.5);
             font-size: 13px;
             letter-spacing: 3px;
-            font-family: sans-serif;
+            font-family: 'Orbitron', sans-serif;
         }
 
         /* Footer */
         footer {
             text-align: center;
             padding: 80px 20px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(0, 255, 200, 0.1);
             margin-top: 60px;
         }
 
         footer p {
             font-size: 12px;
-            color: #bbb;
+            color: #4a5568;
             letter-spacing: 2px;
+        }
+
+        footer a {
+            color: #00ffc8;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
         }
 
         /* Responsive */
@@ -361,10 +433,11 @@
 </head>
 <body>
     <header>
+        <div class="grid-bg"></div>
         <div class="header-content">
             <div class="subtitle">Portfolio</div>
             <h1>龙鹏作品集</h1>
-            <div class="tagline">UI Design &amp; Visual Design</div>
+            <div class="tagline">UI Design &amp; Motion Design</div>
         </div>
         <div class="scroll-hint">
             <span>向下滚动</span>
@@ -379,7 +452,7 @@
         </div>
         <div class="gallery" id="gallery"></div>
 
-        <div class="section-header" style="margin-top: 40px;">
+        <div class="section-header" style="margin-top: 80px;">
             <div class="section-title">动效作品</div>
             <div class="work-count">10 Works</div>
         </div>
@@ -440,14 +513,63 @@
     </div>
 
     <footer>
-        <p>龙鹏作品集 &copy; 2026</p>
+        <p>龙鹏作品集 &copy; 2026 &nbsp;|&nbsp; <a href="https://rocof.github.io/username.github.io/" target="_blank">更多动效内容 →</a></p>
     </footer>
 
     <script>
+        const imageUrls = [
+            'https://i.postimg.cc/2jDxWj4C/00.png',
+            'https://i.postimg.cc/3751V1zs/01.png',
+            'https://i.postimg.cc/Mx25N5gg/02.png',
+            'https://i.postimg.cc/6wJcgcDs/03.png',
+            'https://i.postimg.cc/DFk6H6RQ/04.png',
+            'https://i.postimg.cc/jK0cmcGY/05.png',
+            'https://i.postimg.cc/51dgTgZ1/06.png',
+            'https://i.postimg.cc/ZZtH2H1J/07.png',
+            'https://i.postimg.cc/DFr6TsKD/08.png',
+            'https://i.postimg.cc/ty3kjPjQ/09.png',
+            'https://i.postimg.cc/R97dBfBM/10.png',
+            'https://i.postimg.cc/2mQGDvD5/11.png',
+            'https://i.postimg.cc/yBmjH9HW/12.png',
+            'https://i.postimg.cc/Sq6dh8hY/13.png',
+            'https://i.postimg.cc/b8xghbht/14.png',
+            'https://i.postimg.cc/cZRhSYSY/15.png',
+            'https://i.postimg.cc/0P9f2Qkj/16.png',
+            'https://i.postimg.cc/wg9VTvqt/17.png',
+            'https://i.postimg.cc/Qhjbxt89/18.png',
+            'https://i.postimg.cc/2rCw86kF/19.png',
+            'https://i.postimg.cc/1syH5tmr/20.png',
+            'https://i.postimg.cc/0P9f2QkC/21.png',
+            'https://i.postimg.cc/fDMKTLzP/22.png',
+            'https://i.postimg.cc/3Y9ZyTNn/23.png',
+            'https://i.postimg.cc/tpDz1jJS/24.png',
+            'https://i.postimg.cc/3Y9ZyTNs/25.png',
+            'https://i.postimg.cc/1sMKgQ4x/26.png',
+            'https://i.postimg.cc/8NwbFSsT/27.png',
+            'https://i.postimg.cc/q4QGtTgk/28.png',
+            'https://i.postimg.cc/cdHBwb80/29.png',
+            'https://i.postimg.cc/D7ZPLMbf/30.png',
+            'https://i.postimg.cc/QjtJ1yWM/31.png',
+            'https://i.postimg.cc/gGJH8T6J/32.png',
+            'https://i.postimg.cc/zqBFKcRV/33.png',
+            'https://i.postimg.cc/Gb2xG5sy/34.png',
+            'https://i.postimg.cc/33cCBFgp/35.png',
+            'https://i.postimg.cc/PdRz4Qmy/36.png',
+            'https://i.postimg.cc/LmbBT3z7/37.png',
+            'https://i.postimg.cc/8T0BHmh9/38.png',
+            'https://i.postimg.cc/YpLNyL3X/39.png',
+            'https://i.postimg.cc/RMJ1bJR8/40.png',
+            'https://i.postimg.cc/PtvbFvyh/41.png',
+            'https://i.postimg.cc/dqZRSZ6t/42.png',
+            'https://i.postimg.cc/Ng28P2D0/43.png',
+            'https://i.postimg.cc/qk6cZ6wz/44.png',
+            'https://i.postimg.cc/W2qmfq83/45.png'
+        ];
+
         const images = [];
         for (let i = 0; i < 46; i++) {
             const name = i.toString().padStart(2, '0') + '.png';
-            images.push({ type: 'image', src: '作品集图片文件/' + name, name: name });
+            images.push({ type: 'image', src: imageUrls[i], name: name });
         }
 
         const videos = [
