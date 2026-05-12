@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙鹏作品集</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #faf9f7;
+            color: #2c2c2c;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(200,180,160,0.15) 0%, transparent 60%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(2%, 2%) rotate(2deg); }
+        }
+
+        .header-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            letter-spacing: 8px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            margin-bottom: 30px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #888;
+            letter-spacing: 2px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: #bbb;
+            font-size: 11px;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ddd, transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollLine {
+            0%, 100% { transform: scaleY(1); opacity: 1; }
+            50% { transform: scaleY(0.5); opacity: 0.5; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 60px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section-title {
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .work-count {
+            font-size: 12px;
+            color: #bbb;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #f0efed;
+        }
+
+        .gallery-item::after {
+            content: '';
+            display: block;
+            padding-bottom: 75%;
+        }
+
+        .gallery-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .gallery-item .work-number {
+            color: rgba(255,255,255,0.9);
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Video Grid */
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .video-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #1a1a1a;
+            cursor: pointer;
+        }
+
+        .video-item::after {
+            content: '';
+            display: block;
+            padding-bottom: 56.25%;
+        }
+
+        .video-item video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .video-item:hover video {
+            transform: scale(1.05);
+        }
+
+        .video-item .video-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            z-index: 2;
+        }
+
+        .video-item .video-title {
+            color: rgba(255,255,255,0.9);
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10,10,10,0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 85%;
+            max-height: 85vh;
+        }
+
+        .lightbox img,
+        .lightbox video {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .lightbox video {
+            background: #000;
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 32px;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            transition: color 0.3s;
+            font-family: sans-serif;
+        }
+
+        .lightbox .close:hover {
+            color: #fff;
+        }
+
+        .lightbox .nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 36px;
+            color: rgba(255,255,255,0.4);
+            cursor: pointer;
+            padding: 30px 25px;
+            transition: all 0.3s;
+            user-select: none;
+            font-family: sans-serif;
+        }
+
+        .lightbox .nav:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .lightbox .prev { left: 20px; }
+        .lightbox .next { right: 20px; }
+
+        .lightbox .counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            letter-spacing: 3px;
+            font-family: sans-serif;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 80px 20px;
+            border-top: 1px solid #eee;
+            margin-top: 60px;
+        }
+
+        footer p {
+            font-size: 12px;
+            color: #bbb;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .gallery { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 900px) {
+            .video-gallery { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .video-gallery { grid-template-columns: 1fr; }
+            .gallery-section { padding: 60px 20px; }
+            h1 { font-size: 36px; letter-spacing: 6px; }
+            header { height: 70vh; }
+        }
+
+        @media (max-width: 480px) {
+            .gallery { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="subtitle">Portfolio</div>
+            <h1>龙鹏作品集</h1>
+            <div class="tagline">UI Design &amp; Visual Design</div>
+        </div>
+        <div class="scroll-hint">
+            <span>向下滚动</span>
+            <div class="scroll-line"></div>
+        </div>
+    </header>
+
+    <section class="gallery-section">
+        <div class="section-header">
+            <div class="section-title">设计作品</div>
+            <div class="work-count">46 Works</div>
+        </div>
+        <div class="gallery" id="gallery"></div>
+
+        <div class="section-header" style="margin-top: 40px;">
+            <div class="section-title">动效作品</div>
+            <div class="work-count">10 Works</div>
+        </div>
+
+        <div class="video-gallery" id="videoGallery">
+            <div class="video-item" data-index="46">
+                <video src="动效文件/01_国金证券登录页.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">国金证券登录页</span></div>
+            </div>
+            <div class="video-item" data-index="47">
+                <video src="动效文件/02_天威云动态插画.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">天威云动态插画</span></div>
+            </div>
+            <div class="video-item" data-index="48">
+                <video src="动效文件/03_签署不指定位置.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">签署不指定位置</span></div>
+            </div>
+            <div class="video-item" data-index="49">
+                <video src="动效文件/04_批量移动初次登录提示.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">批量移动初次登录提示</span></div>
+            </div>
+            <div class="video-item" data-index="50">
+                <video src="动效文件/05_下载证书中.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">下载证书中</span></div>
+            </div>
+            <div class="video-item" data-index="51">
+                <video src="动效文件/06_美特驾驶舱修.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">美特驾驶舱</span></div>
+            </div>
+            <div class="video-item" data-index="52">
+                <video src="动效文件/07_禁毒登录动效.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">禁毒登录动效</span></div>
+            </div>
+            <div class="video-item" data-index="53">
+                <video src="动效文件/08_猎空大登录页.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">猎空大登录页</span></div>
+            </div>
+            <div class="video-item" data-index="54">
+                <video src="动效文件/09_诸暨产业登录.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">诸暨产业登录</span></div>
+            </div>
+            <div class="video-item" data-index="55">
+                <video src="动效文件/10_深圳宝安首页.mp4" muted loop autoplay preload="metadata"></video>
+                <div class="video-label"><span class="video-title">深圳宝安首页</span></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close" id="close">&times;</span>
+        <span class="nav prev" id="prev">&#10094;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <video id="lightbox-video" src="" controls style="display:none;"></video>
+        </div>
+        <span class="nav next" id="next">&#10095;</span>
+        <div class="counter" id="counter"></div>
+    </div>
+
+    <footer>
+        <p>龙鹏作品集 &copy; 2026</p>
+    </footer>
+
+    <script>
+        const images = [];
+        for (let i = 0; i < 46; i++) {
+            const name = i.toString().padStart(2, '0') + '.png';
+            images.push({ type: 'image', src: '作品集图片文件/' + name, name: name });
+        }
+
+        const videos = [
+            { type: 'video', src: '动效文件/01_国金证券登录页.mp4', name: '国金证券登录页' },
+            { type: 'video', src: '动效文件/02_天威云动态插画.mp4', name: '天威云动态插画' },
+            { type: 'video', src: '动效文件/03_签署不指定位置.mp4', name: '签署不指定位置' },
+            { type: 'video', src: '动效文件/04_批量移动初次登录提示.mp4', name: '批量移动初次登录提示' },
+            { type: 'video', src: '动效文件/05_下载证书中.mp4', name: '下载证书中' },
+            { type: 'video', src: '动效文件/06_美特驾驶舱修.mp4', name: '美特驾驶舱' },
+            { type: 'video', src: '动效文件/07_禁毒登录动效.mp4', name: '禁毒登录动效' },
+            { type: 'video', src: '动效文件/08_猎空大登录页.mp4', name: '猎空大登录页' },
+            { type: 'video', src: '动效文件/09_诸暨产业登录.mp4', name: '诸暨产业登录' },
+            { type: 'video', src: '动效文件/10_深圳宝安首页.mp4', name: '深圳宝安首页' }
+        ];
+
+        const allItems = [...images, ...videos];
+
+        // Build image gallery
+        const gallery = document.getElementById('gallery');
+        images.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.innerHTML = `
+                <img src="${item.src}" alt="${item.name}" loading="lazy">
+                <div class="overlay"><span class="work-number">${item.name}</span></div>
+            `;
+            div.addEventListener('click', () => openLightbox(index));
+            gallery.appendChild(div);
+        });
+
+        // Video item click handlers
+        document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const idx = parseInt(item.dataset.index);
+                openLightbox(idx);
+            });
+        });
+        document.querySelectorAll('.video-item video').forEach(vid => {
+            vid.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const item = vid.closest('.video-item');
+                const idx = parseInt(item.dataset.index);
+                openLightbox(idx);
+            });
+        });
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const counter = document.getElementById('counter');
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lightboxVideo.pause();
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            const item = allItems[currentIndex];
+            if (item.type === 'image') {
+                lightboxImg.src = item.src;
+                lightboxImg.style.display = 'block';
+                lightboxVideo.style.display = 'none';
+                lightboxVideo.src = '';
+            } else {
+                lightboxVideo.src = item.src;
+                lightboxVideo.style.display = 'block';
+                lightboxVideo.loop = true;
+                lightboxImg.style.display = 'none';
+                lightboxImg.src = '';
+                lightboxVideo.play();
+            }
+            counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${allItems.length}`;
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + allItems.length) % allItems.length;
+            updateLightbox();
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % allItems.length;
+            updateLightbox();
+        }
+
+        document.getElementById('close').addEventListener('click', closeLightbox);
+        document.getElementById('prev').addEventListener('click', showPrev);
+        document.getElementById('next').addEventListener('click', showNext);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === 'ArrowRight') showNext();
+        });
+    </script>
+</body>
+</html>
