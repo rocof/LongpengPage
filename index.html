@@ -160,8 +160,9 @@
         /* Gallery Grid */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 24px;
+            align-items: start;
         }
 
         .gallery-item {
@@ -174,34 +175,10 @@
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .gallery-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 200, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .gallery-item:hover::before {
-            left: 100%;
-        }
-
-        .gallery-item::after {
-            content: '';
-            display: block;
-            padding-bottom: 75%;
-        }
-
         .gallery-item img {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            display: block;
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             filter: brightness(0.9) contrast(1.1);
         }
@@ -238,6 +215,10 @@
         }
 
         /* Video Grid */
+        .video-section-header {
+            margin-top: 80px;
+        }
+
         .video-gallery {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -334,6 +315,7 @@
 
         .lightbox video {
             background: #000;
+            display: none;
         }
 
         .lightbox .close {
@@ -361,6 +343,7 @@
             padding: 30px 25px;
             transition: all 0.3s;
             user-select: none;
+            -webkit-user-select: none;
             font-family: sans-serif;
         }
 
@@ -409,6 +392,46 @@
             text-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
         }
 
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 200, 0.1);
+            border: 1px solid rgba(0, 255, 200, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: rgba(0, 255, 200, 0.2);
+            border-color: rgba(0, 255, 200, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+        }
+
+        .back-to-top::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 10px solid #00ffc8;
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .gallery { grid-template-columns: repeat(3, 1fr); }
@@ -452,7 +475,7 @@
         </div>
         <div class="gallery" id="gallery"></div>
 
-        <div class="section-header" style="margin-top: 80px;">
+        <div class="section-header video-section-header">
             <div class="section-title">动效作品</div>
             <div class="work-count">10 Works</div>
         </div>
@@ -506,14 +529,16 @@
         <span class="nav prev" id="prev">&#10094;</span>
         <div class="lightbox-content">
             <img id="lightbox-img" src="" alt="">
-            <video id="lightbox-video" src="" controls style="display:none;"></video>
+            <video id="lightbox-video" src="" controls></video>
         </div>
         <span class="nav next" id="next">&#10095;</span>
         <div class="counter" id="counter"></div>
     </div>
 
+    <div class="back-to-top" id="backToTop"></div>
+
     <footer>
-        <p>龙鹏作品集 &copy; 2026 &nbsp;|&nbsp; <a href="https://rocof.github.io/username.github.io/" target="_blank">更多动效内容 →</a></p>
+        <p>龙鹏作品集 &copy; 2026 &nbsp;|&nbsp; <a href="https://rocof.github.io/username.github.io/" target="_blank" rel="noopener noreferrer">更多动效内容 →</a></p>
     </footer>
 
     <script>
@@ -675,6 +700,19 @@
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowLeft') showPrev();
             if (e.key === 'ArrowRight') showNext();
+        });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
