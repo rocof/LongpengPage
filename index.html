@@ -468,7 +468,7 @@
     <section class="gallery-section">
         <div class="section-header">
             <div class="section-title">设计作品</div>
-            <div class="work-count">46 Works</div>
+            <div class="work-count">42 Works</div>
         </div>
         <div class="gallery" id="gallery"></div>
 
@@ -539,59 +539,16 @@
     </footer>
 
     <script>
-        const imageUrls = [
-            'https://i.postimg.cc/2jDxWj4C/00.png',
-            'https://i.postimg.cc/3751V1zs/01.png',
-            'https://i.postimg.cc/Mx25N5gg/02.png',
-            'https://i.postimg.cc/6wJcgcDs/03.png',
-            'https://i.postimg.cc/DFk6H6RQ/04.png',
-            'https://i.postimg.cc/jK0cmcGY/05.png',
-            'https://i.postimg.cc/51dgTgZ1/06.png',
-            'https://i.postimg.cc/ZZtH2H1J/07.png',
-            'https://i.postimg.cc/DFr6TsKD/08.png',
-            'https://i.postimg.cc/ty3kjPjQ/09.png',
-            'https://i.postimg.cc/R97dBfBM/10.png',
-            'https://i.postimg.cc/2mQGDvD5/11.png',
-            'https://i.postimg.cc/yBmjH9HW/12.png',
-            'https://i.postimg.cc/Sq6dh8hY/13.png',
-            'https://i.postimg.cc/b8xghbht/14.png',
-            'https://i.postimg.cc/cZRhSYSY/15.png',
-            'https://i.postimg.cc/0P9f2Qkj/16.png',
-            'https://i.postimg.cc/wg9VTvqt/17.png',
-            'https://i.postimg.cc/Qhjbxt89/18.png',
-            'https://i.postimg.cc/2rCw86kF/19.png',
-            'https://i.postimg.cc/1syH5tmr/20.png',
-            'https://i.postimg.cc/0P9f2QkC/21.png',
-            'https://i.postimg.cc/fDMKTLzP/22.png',
-            'https://i.postimg.cc/3Y9ZyTNn/23.png',
-            'https://i.postimg.cc/tpDz1jJS/24.png',
-            'https://i.postimg.cc/3Y9ZyTNs/25.png',
-            'https://i.postimg.cc/1sMKgQ4x/26.png',
-            'https://i.postimg.cc/8NwbFSsT/27.png',
-            'https://i.postimg.cc/q4QGtTgk/28.png',
-            'https://i.postimg.cc/cdHBwb80/29.png',
-            'https://i.postimg.cc/D7ZPLMbf/30.png',
-            'https://i.postimg.cc/QjtJ1yWM/31.png',
-            'https://i.postimg.cc/gGJH8T6J/32.png',
-            'https://i.postimg.cc/zqBFKcRV/33.png',
-            'https://i.postimg.cc/Gb2xG5sy/34.png',
-            'https://i.postimg.cc/33cCBFgp/35.png',
-            'https://i.postimg.cc/PdRz4Qmy/36.png',
-            'https://i.postimg.cc/LmbBT3z7/37.png',
-            'https://i.postimg.cc/8T0BHmh9/38.png',
-            'https://i.postimg.cc/YpLNyL3X/39.png',
-            'https://i.postimg.cc/RMJ1bJR8/40.png',
-            'https://i.postimg.cc/PtvbFvyh/41.png',
-            'https://i.postimg.cc/dqZRSZ6t/42.png',
-            'https://i.postimg.cc/Ng28P2D0/43.png',
-            'https://i.postimg.cc/qk6cZ6wz/44.png',
-            'https://i.postimg.cc/W2qmfq83/45.png'
-        ];
+        const imageUrls = [];
+        for (let i = 0; i < 46; i++) {
+            const num = i.toString().padStart(2, '0');
+            imageUrls.push(`${num}.png`);
+        }
 
         const images = [];
-        for (let i = 0; i < 46; i++) {
-            const name = i.toString().padStart(2, '0') + '.png';
-            images.push({ type: 'image', src: imageUrls[i], name: name });
+        for (let i = 1; i <= 42; i++) {
+            const num = i.toString().padStart(2, '0');
+            images.push({ type: 'image', src: `${num}.png`, name: `${num}.png` });
         }
 
         const videos = [

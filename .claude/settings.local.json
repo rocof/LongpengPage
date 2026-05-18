@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(ls \"C:/Users/15233/Desktop/longpeng-page/\"*.png)"
     ]
   }
 }
