@@ -298,22 +298,17 @@
         }
 
         .lightbox-content {
-            max-width: 85%;
-            max-height: 85vh;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
         }
 
         .lightbox img,
         .lightbox video {
-            max-width: 100%;
-            max-height: 85vh;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            border-radius: 4px;
-            box-shadow: 0 0 60px rgba(0, 255, 200, 0.2);
-        }
-
-        .lightbox video {
-            background: #000;
-            display: none;
         }
 
         .lightbox .close {
@@ -361,6 +356,34 @@
             color: rgba(0, 255, 200, 0.5);
             font-size: 13px;
             letter-spacing: 3px;
+        }
+
+        #videoLightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+        }
+
+        #videoLightbox.active {
+            display: flex;
+        }
+
+        #videoLightbox .lightbox-content {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #videoLightbox video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         /* Footer */
@@ -468,7 +491,7 @@
     <section class="gallery-section">
         <div class="section-header">
             <div class="section-title">设计作品</div>
-            <div class="work-count">42 Works</div>
+            <div class="work-count">44 Works</div>
         </div>
         <div class="gallery" id="gallery"></div>
 
@@ -478,43 +501,43 @@
         </div>
 
         <div class="video-gallery" id="videoGallery">
-            <div class="video-item" data-index="46">
+            <div class="video-item" data-index="0">
                 <video src="动效文件/01_国金证券登录页.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">国金证券登录页</span></div>
             </div>
-            <div class="video-item" data-index="47">
+            <div class="video-item" data-index="1">
                 <video src="动效文件/02_天威云动态插画.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">天威云动态插画</span></div>
             </div>
-            <div class="video-item" data-index="48">
+            <div class="video-item" data-index="2">
                 <video src="动效文件/03_签署不指定位置.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">签署不指定位置</span></div>
             </div>
-            <div class="video-item" data-index="49">
+            <div class="video-item" data-index="3">
                 <video src="动效文件/04_批量移动初次登录提示.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">批量移动初次登录提示</span></div>
             </div>
-            <div class="video-item" data-index="50">
+            <div class="video-item" data-index="4">
                 <video src="动效文件/05_下载证书中.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">下载证书中</span></div>
             </div>
-            <div class="video-item" data-index="51">
+            <div class="video-item" data-index="5">
                 <video src="动效文件/06_美特驾驶舱修.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">美特驾驶舱</span></div>
             </div>
-            <div class="video-item" data-index="52">
+            <div class="video-item" data-index="6">
                 <video src="动效文件/07_禁毒登录动效.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">禁毒登录动效</span></div>
             </div>
-            <div class="video-item" data-index="53">
+            <div class="video-item" data-index="7">
                 <video src="动效文件/08_猎空大登录页.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">猎空大登录页</span></div>
             </div>
-            <div class="video-item" data-index="54">
+            <div class="video-item" data-index="8">
                 <video src="动效文件/09_诸暨产业登录.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">诸暨产业登录</span></div>
             </div>
-            <div class="video-item" data-index="55">
+            <div class="video-item" data-index="9">
                 <video src="动效文件/10_深圳宝安首页.mp4" muted loop autoplay preload="metadata"></video>
                 <div class="video-label"><span class="video-title">深圳宝安首页</span></div>
             </div>
@@ -526,10 +549,19 @@
         <span class="nav prev" id="prev">&#10094;</span>
         <div class="lightbox-content">
             <img id="lightbox-img" src="" alt="">
-            <video id="lightbox-video" src="" controls></video>
         </div>
         <span class="nav next" id="next">&#10095;</span>
         <div class="counter" id="counter"></div>
+    </div>
+
+    <div class="lightbox" id="videoLightbox">
+        <span class="close" id="videoClose">&times;</span>
+        <span class="nav prev" id="videoPrev">&#10094;</span>
+        <div class="lightbox-content">
+            <video id="videoLightboxVideo" src="" controls></video>
+        </div>
+        <span class="nav next" id="videoNext">&#10095;</span>
+        <div class="counter" id="videoCounter"></div>
     </div>
 
     <div class="back-to-top" id="backToTop"></div>
@@ -539,16 +571,10 @@
     </footer>
 
     <script>
-        const imageUrls = [];
-        for (let i = 0; i < 46; i++) {
-            const num = i.toString().padStart(2, '0');
-            imageUrls.push(`${num}.png`);
-        }
-
         const images = [];
-        for (let i = 1; i <= 42; i++) {
+        for (let i = 1; i <= 44; i++) {
             const num = i.toString().padStart(2, '0');
-            images.push({ type: 'image', src: `${num}.png`, name: `${num}.png` });
+            images.push({ type: 'image', src: `作品集图片文件/${num}.png`, name: `${num}.png` });
         }
 
         const videos = [
@@ -564,8 +590,6 @@
             { type: 'video', src: '动效文件/10_深圳宝安首页.mp4', name: '深圳宝安首页' }
         ];
 
-        const allItems = [...images, ...videos];
-
         // Build image gallery
         const gallery = document.getElementById('gallery');
         images.forEach((item, index) => {
@@ -579,26 +603,9 @@
             gallery.appendChild(div);
         });
 
-        // Video item click handlers
-        document.querySelectorAll('.video-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                const idx = parseInt(item.dataset.index);
-                openLightbox(idx);
-            });
-        });
-        document.querySelectorAll('.video-item video').forEach(vid => {
-            vid.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const item = vid.closest('.video-item');
-                const idx = parseInt(item.dataset.index);
-                openLightbox(idx);
-            });
-        });
-
         // Lightbox
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxVideo = document.getElementById('lightbox-video');
         const counter = document.getElementById('counter');
         let currentIndex = 0;
 
@@ -611,52 +618,83 @@
 
         function closeLightbox() {
             lightbox.classList.remove('active');
-            lightboxVideo.pause();
             document.body.style.overflow = '';
         }
 
         function updateLightbox() {
-            const item = allItems[currentIndex];
-            if (item.type === 'image') {
-                lightboxImg.src = item.src;
-                lightboxImg.style.display = 'block';
-                lightboxVideo.style.display = 'none';
-                lightboxVideo.src = '';
-            } else {
-                lightboxVideo.src = item.src;
-                lightboxVideo.style.display = 'block';
-                lightboxVideo.loop = true;
-                lightboxImg.style.display = 'none';
-                lightboxImg.src = '';
-                lightboxVideo.play();
-            }
-            counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${allItems.length}`;
-        }
-
-        function showPrev() {
-            currentIndex = (currentIndex - 1 + allItems.length) % allItems.length;
-            updateLightbox();
-        }
-
-        function showNext() {
-            currentIndex = (currentIndex + 1) % allItems.length;
-            updateLightbox();
+            const item = images[currentIndex];
+            lightboxImg.src = item.src;
+            counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${images.length}`;
         }
 
         document.getElementById('close').addEventListener('click', closeLightbox);
-        document.getElementById('prev').addEventListener('click', showPrev);
-        document.getElementById('next').addEventListener('click', showNext);
+        document.getElementById('prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateLightbox();
+        });
+        document.getElementById('next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateLightbox();
+        });
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) closeLightbox();
         });
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
             if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') showPrev();
-            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateLightbox();
+            }
+            if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateLightbox();
+            }
         });
 
-        // Back to top
+        // Video item click handlers
+        const videoLightbox = document.getElementById('videoLightbox');
+        const videoLightboxVideo = document.getElementById('videoLightboxVideo');
+        const videoCounter = document.getElementById('videoCounter');
+        let currentVideoIndex = 0;
+
+        document.querySelectorAll('.video-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                currentVideoIndex = parseInt(item.dataset.index);
+                openVideoLightbox();
+            });
+        });
+
+        function openVideoLightbox() {
+            videoLightboxVideo.src = videos[currentVideoIndex].src;
+            videoLightboxVideo.loop = true;
+            videoLightbox.classList.add('active');
+            videoLightboxVideo.play();
+            updateVideoCounter();
+        }
+
+        function updateVideoCounter() {
+            videoCounter.textContent = `${String(currentVideoIndex + 1).padStart(2, '0')} / ${videos.length}`;
+        }
+
+        document.getElementById('videoClose').addEventListener('click', () => {
+            videoLightbox.classList.remove('active');
+            videoLightboxVideo.pause();
+        });
+
+        document.getElementById('videoPrev').addEventListener('click', () => {
+            currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+            videoLightboxVideo.src = videos[currentVideoIndex].src;
+            videoLightboxVideo.play();
+            updateVideoCounter();
+        });
+
+        document.getElementById('videoNext').addEventListener('click', () => {
+            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+            videoLightboxVideo.src = videos[currentVideoIndex].src;
+            videoLightboxVideo.play();
+            updateVideoCounter();
+        });
         const backToTop = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
